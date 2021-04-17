@@ -18,10 +18,11 @@ require_once 'includes/fct.inc.php';
 require_once 'includes/class.pdogsb.inc.php';
 session_start();
 $pdo = PdoGsb::getPdoGsb();
-$estConnecte = estConnecte();
+$estConnecteVisiteur = estConnecteVisiteur();
+$estConnecteComptable = estConnecterComptable();
 require 'vues/v_entete.php';
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
-if ($uc && !$estConnecte) {
+if ($uc && !$estConnecteVisiteur || !$estConnecteComptable) {
     $uc = 'connexion';
 } elseif (empty($uc)) {
     $uc = 'accueil';
