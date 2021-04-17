@@ -28,6 +28,15 @@ case 'valideConnexion':
     $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_STRING);
     $visiteur = $pdo->getInfosVisiteur($login, $mdp);
     if (!is_array($visiteur)) {
+        $pdo = $pdo = PdoGsb::getPdoGsb();
+        $comptable = $pdo->getInfosComptable($login, $mdp);
+        if(!is_array(($comptable))){
+            $id = $comptable['id'];
+            $nom = $comptable['nom'];
+            $prenom = $comptable['prenom'];
+            connecterComptable($id, $nom, $prenom);
+            header('Location: index.php');
+        }
         ajouterErreur('Login ou mot de passe incorrect');
         include 'vues/v_erreurs.php';
         include 'vues/v_connexion.php';
@@ -35,7 +44,7 @@ case 'valideConnexion':
         $id = $visiteur['id'];
         $nom = $visiteur['nom'];
         $prenom = $visiteur['prenom'];
-        connecter($id, $nom, $prenom);
+        connecterVisiteur($id, $nom, $prenom);
         header('Location: index.php');
     }
     break;
